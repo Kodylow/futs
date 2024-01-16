@@ -14,9 +14,9 @@ The FUTs can be read independently and should be approachable for anyone familia
 
 ## FUT Sketches
 
-| # | Description | Done | 
+| # | Description | Progress | 
 |--- | --- | --- |
-| [FUT-00][./futs/FUT-00] | Cryptography and Models          | - |
+| [FUT-00][./futs/FUT-00] | Cryptography and Models          | WIP |
 | [FUT-01][./futs/FUT-01] | Mint public keys                 | - |
 | [FUT-02][./futs/FUT-02] | Keysets and keyset IDs           | - |
 | [FUT-03][./futs/FUT-03] | Swapping tokens                  | - |
