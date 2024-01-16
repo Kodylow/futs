@@ -1,4 +1,4 @@
-# Cashu FUTs (Fedimint Usage & Technology Sketches)
+# Cashu FUTS (Fedimint Usage & Technology Sketches)
 
 These documents are an exploration into unifying Cashu's NUT protocol specifications with Fedimint's ecash implementation. 
 
