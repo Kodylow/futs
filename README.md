@@ -34,7 +34,7 @@ The FUTs can be read independently and should be approachable for anyone familia
 
 | # | Description | Done |
 |--- | --- | --- |
-| [FIT-01][./fits/FIT-01.md] | Consensus Mechanism   | - |
+| [FIT-00][./fits/FIT-00.md] | Consensus Mechanism   | - |
 | [FIT-01][./fits/FIT-01.md] | Module Architecture   | - |
 | [FIT-02][./fits/FIT-02.md] | Transaction Primitive | - |
 
