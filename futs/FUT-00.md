@@ -100,18 +100,18 @@ We use the following format for token serialization:
 cashu[version][token]
 ```
 
-#### V3 tokens
+#### VF (Fedimint) tokens
 
 Wallets serialize tokens in a `base64_urlsafe` format (base64 encoding with `/` replaced by `_` and `+` by `-`). 
 
 ```sh
-cashu[version][base64_token_json]
+cashu[version][base64_token_binary]
 ```
 
-`cashu` is the Cashu token prefix. `[version]` is a single `base64_urlsafe` character to denote the token format version (starting with `A` for the present token format). `[base64_token_json]` is the token JSON serialized in `base64_urlsafe`. A `[base64_token_json]` should be cleared of any whitespace before serializing.
+`cashu` is the Cashu token prefix. `[version]` is a single `base64_urlsafe` character to denote the token format version (starting with `F` for the Fedimint token format). `[base64_token_binary]` is the token JSON serialized in `base64_urlsafe`. A `[base64_token_binary]` MUST be binary encoded per the Fedimint Rust implementation.
 
-##### Version
-This token format has the `[version]` value `A`.
+##### Fedimint Version 
+This token format has the `[version]` value `F`.
 
 ##### URI tags
 
@@ -120,27 +120,61 @@ To make Cashu tokens clickable on the web, we use the URI tags `cashu:` or `cash
 A serialized token with URI tag becomes 
 
 ```sh
-cashu:cashuAeyJwcm9vZn...
+cashu:cashuFAgEE0-i4lwBTAQQBsjL_7eJVlWFzYiE6zcRKL8iO29itV42pX-LjK4wiDRa2rJ1FRBZHgb5jp0ct0KF7SVK2eXWVPFzvra2nbfK0udSmDaIcewwDvrvsM25AwcE=
 ```
 
-##### Token format
+##### Cashu vF Token format
 
-The deserialized `base64_token_json` is
+The deserialized `base64_token_binary` for 21 sats (as 1x 1msat, 2x 2msat, and 1x 16msat) as JSON looks like:
 
-```json
+```rust
 {
-  "token": [
-    {
-      "mint": str,
-      "proofs": Proofs
-    },
-    ...
-  ],
-  "unit": str <optional>,
-  "memo": str <optional>
+  {
+    "federationIdPrefix": [u8; 4],
+    "notes": {
+      {
+        "1": [
+          {
+            "signature": {
+              x: [u8; 32],
+              y: [u8; 32],
+            },
+            "spend_key": [u8; 32],
+          },
+        ],
+        "2": [
+          {
+            "signature": {
+              x: [u8; 32],
+              y: [u8; 32],
+            },
+            "spend_key": [u8; 32],
+          },
+          {
+            "signature": {
+              x: [u8; 32],
+              y: [u8; 32],
+            },
+            "spend_key": [u8; 32],
+          }
+        ],
+        "16": [
+          {
+            "signature": {
+              x: [u8; 32],
+              y: [u8; 32],
+            },
+            "spend_key": [u8; 32],
+          }
+        ],
+      }
+    }
+  },
 }
 ```
-`mint` is the mint URL, `Proofs` is an array of `Proof` objects. The next two elements are only for displaying the receiving user appropriate information: `unit` is the currency unit of the token keysets (see [Keysets][01] for supported units), and `memo` is an optional text memo from the sender. 
+
+`federationId` is the federationId, `Notes` is a tiered_multi of Proofs where the key is the amount_msat and the value is an array of Proofs of that amount_msat.
+
 
 
 ##### Example JSON
